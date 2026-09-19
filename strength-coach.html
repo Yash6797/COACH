@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Strength Coach – Barbell &amp; Dumbbell Starter</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#eceff2;--surface:#fbfcfd;--ink:#182029;--muted:#5d6874;--line:#d5dbe1;
+  --accent:#2158d6;--accent-ink:#ffffff;--soft:#dfe8fb;--demo:#e2e7ed;
+  --fig:#1b2430;--arm:#7d8a99;
+  --red:#d9382c;--blue:#2158d6;--yellow:#e3a800;--green:#2b9457;--white:#8b95a1;
+  --head:'Barlow Condensed','Arial Narrow','Helvetica Neue',sans-serif;
+  --body:'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#12161b;--surface:#1a2028;--ink:#e8edf2;--muted:#9aa6b3;--line:#2b343f;
+    --accent:#6f9bff;--accent-ink:#0d1420;--soft:#1d2a45;--demo:#222b36;
+    --fig:#e8edf2;--arm:#8d9aa9;
+    --red:#ff6b5e;--blue:#6f9bff;--yellow:#f3c33a;--green:#4cc582;--white:#aab4c0;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#12161b;--surface:#1a2028;--ink:#e8edf2;--muted:#9aa6b3;--line:#2b343f;
+  --accent:#6f9bff;--accent-ink:#0d1420;--soft:#1d2a45;--demo:#222b36;
+  --fig:#e8edf2;--arm:#8d9aa9;
+  --red:#ff6b5e;--blue:#6f9bff;--yellow:#f3c33a;--green:#4cc582;--white:#aab4c0;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--body)}
+h1,h2,h3,h4{font-family:var(--head);font-weight:700;line-height:1.1;margin:0;letter-spacing:.01em}
+p{margin:0 0 .8em}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+.muted{color:var(--muted)}
+.sm{font-size:.86rem}
+
+/* header */
+.top{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.top-in{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;padding-bottom:6px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand b{font-family:var(--head);font-size:1.5rem;letter-spacing:.02em;display:block;line-height:1}
+.brand small{color:var(--muted);font-size:.8rem}
+.bar-logo{width:44px;height:26px;position:relative;flex:none}
+.bar-logo i{position:absolute;top:0;bottom:0;border-radius:2px}
+.bar-logo .b{left:0;right:0;top:11px;bottom:11px;background:var(--ink);border-radius:2px}
+.bar-logo .p1{left:6px;width:7px;background:var(--red)}
+.bar-logo .p2{left:14px;width:6px;top:3px;bottom:3px;background:var(--blue)}
+.bar-logo .p3{right:6px;width:7px;background:var(--red)}
+.bar-logo .p4{right:14px;width:6px;top:3px;bottom:3px;background:var(--blue)}
+.tools{display:flex;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 13px;font-weight:500;min-height:36px}
+.chip:hover{border-color:var(--accent)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+.tab{background:none;border:0;border-bottom:3px solid transparent;padding:9px 14px;font-family:var(--head);font-size:1.15rem;font-weight:600;color:var(--muted);white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+main{padding:22px 18px 60px}
+
+/* buttons */
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:9px 16px;font-weight:600;min-height:40px}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--accent);filter:none}
+.btn.danger{color:var(--red);border-color:var(--red)}
+.btn.sm{padding:5px 11px;min-height:32px;font-size:.9rem}
+.btn[data-armed="1"]{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;margin-bottom:34px}
+.hero h1{font-size:clamp(2.4rem,6vw,4rem);margin-bottom:12px}
+.hero p{max-width:52ch;font-size:1.08rem}
+.hero .demo-wrap{margin:0}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+
+/* demo */
+.demo-wrap{background:var(--demo);border-radius:14px;padding:8px;border:1px solid var(--line)}
+svg.demo,.frames svg{display:block;width:100%;height:auto}
+.limb{fill:none;stroke:var(--fig);stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+.limb.far{stroke:var(--arm);opacity:.5}
+.limb.arm{stroke:var(--arm);stroke-width:7}
+.torso{stroke:var(--fig);stroke-width:15;stroke-linecap:round}
+.neck{stroke:var(--fig);stroke-width:6;stroke-linecap:round}
+.head{fill:var(--fig)}
+.plate{fill:var(--accent);fill-opacity:.2;stroke:var(--accent);stroke-width:3}
+.hub{fill:var(--accent)}
+.ghost{stroke:var(--accent);stroke-width:2;stroke-dasharray:5 5;opacity:.75;fill:none}
+.floor{stroke:var(--muted);stroke-width:2;opacity:.55}
+.env{fill:var(--muted);opacity:.5}
+.env-l{stroke:var(--muted);stroke-width:5;opacity:.5;stroke-linecap:round}
+.ctrl{display:flex;align-items:center;gap:10px;padding:8px 6px 4px}
+.ctrl input[type=range]{flex:1;accent-color:var(--accent);min-width:80px}
+.frames{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.frames figure{margin:0;background:var(--demo);border-radius:12px;padding:6px;border:1px solid var(--line)}
+.frames figcaption{padding:4px 6px 6px;font-size:.9rem}
+.frames figcaption b{font-family:var(--head);font-size:1.1rem;display:block}
+
+/* sections */
+.sec-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px;margin:8px 0 16px}
+.sec-head h2{font-size:2rem}
+h3.sub{font-size:1.5rem;margin:30px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.card.click{cursor:pointer}
+.card.click:hover{border-color:var(--accent)}
+.thumb{background:var(--demo);aspect-ratio:1/.8;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb svg{width:100%;height:100%}
+.thumb .ph{font-size:3rem}
+.c-body{padding:12px 14px 14px}
+.c-body h3{font-size:1.4rem;margin:6px 0 4px}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:.8rem;font-weight:500;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:1px 9px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--white);flex:none}
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.filters input[type=search]{flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.fgroup{display:flex;gap:6px;flex-wrap:wrap}
+
+.info{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.box h4{font-size:1.3rem;margin-bottom:6px}
+.box ul,.box ol{margin:0;padding-left:1.2em}
+.box li{margin-bottom:.4em}
+.callout{border-left:5px solid var(--yellow);background:var(--surface);padding:12px 16px;border-radius:0 10px 10px 0;margin:18px 0}
+.defs{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:0}
+.defs dt{font-weight:600}
+.defs dd{margin:0}
+
+/* overlay */
+#overlay:not(:empty){position:fixed;inset:0;z-index:50;background:rgba(10,14,20,.6);overflow-y:auto;padding:24px 12px}
+.sheet{max-width:860px;margin:0 auto;background:var(--bg);border-radius:16px;padding:22px;position:relative;border:1px solid var(--line)}
+.x{position:absolute;top:12px;right:12px}
+.d-head h2{font-size:2.3rem;margin:8px 40px 6px 0}
+.d-grid{display:grid;grid-template-columns:1.15fr 1fr;gap:20px;margin-top:14px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:14px 0}
+.fact{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px}
+.fact span{display:block;font-size:.78rem;color:var(--muted)}
+.fact b{font-weight:600}
+.steps{margin:0;padding-left:0;list-style:none;counter-reset:s}
+.steps li{counter-increment:s;position:relative;padding:0 0 12px 40px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-family:var(--head);font-weight:700;font-size:1.1rem;display:flex;align-items:center;justify-content:center}
+.dlist{margin:0;padding-left:1.2em}
+.dlist li{margin-bottom:.4em}
+.dlist.bad li::marker{color:var(--red)}
+.dlist.good li::marker{color:var(--green)}
+.row-actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+select,input[type=text],input[type=number],textarea{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px;max-width:100%}
+textarea{width:100%;min-height:84px;resize:vertical}
+.photo{width:100%;border-radius:12px;margin-top:12px;display:block}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form label{display:block;font-weight:600;font-size:.9rem}
+.form label>*{display:block;width:100%;margin-top:4px;font-weight:400}
+.form .full{grid-column:1/-1}
+
+/* plan */
+.day{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:18px}
+.day-h{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;margin-bottom:8px}
+.day-h input{font-family:var(--head);font-size:1.6rem;font-weight:700;border:1px solid transparent;background:transparent;padding:2px 8px;min-width:0;flex:1}
+.day-h input:hover,.day-h input:focus{border-color:var(--line)}
+.item{display:grid;grid-template-columns:minmax(150px,1.4fr) auto auto;gap:8px 14px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.item .nm{font-weight:600;background:none;border:0;text-align:left;padding:0;font-size:1.02rem;color:var(--accent)}
+.item .nm:hover{text-decoration:underline}
+.inputs{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.inputs label{font-size:.78rem;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.inputs input{width:74px;min-height:36px;padding:5px 8px}
+.inputs input.w{width:88px}
+.ticks{display:flex;gap:6px;flex-wrap:wrap;grid-column:1/-1}
+.tick{width:34px;height:34px;border-radius:50%;border:2px solid var(--line);background:transparent;font-weight:600;font-size:.85rem;color:var(--muted)}
+.tick[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}
+.mv{display:flex;gap:4px;justify-self:end}
+.icon{width:34px;height:34px;border:1px solid var(--line);background:var(--surface);border-radius:8px;line-height:1}
+.icon:hover{border-color:var(--accent)}
+.add-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.day-foot{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.hist{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:12px}
+.hist ul{margin:6px 0 0;padding-left:1.1em}
+.empty{border:2px dashed var(--line);border-radius:12px;padding:26px;text-align:center;color:var(--muted)}
+#toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;z-index:80;opacity:0;pointer-events:none;transition:opacity .2s;max-width:90vw;text-align:center}
+#toast.on{opacity:1}
+footer{max-width:1080px;margin:0 auto;padding:0 18px 40px;color:var(--muted);font-size:.85rem}
+
+@media (max-width:760px){
+  .hero,.d-grid{grid-template-columns:1fr}
+  .sheet{padding:16px}
+  .form{grid-template-columns:1fr}
+  .item{grid-template-columns:1fr auto}
+  .item .inputs{grid-column:1/-1;order:3}
+}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap top-in">
+    <div class="brand">
+      <div class="bar-logo" aria-hidden="true"><i class="b"></i><i class="p1"></i><i class="p2"></i><i class="p3"></i><i class="p4"></i></div>
+      <div><b>Strength Coach</b><small>Barbell &amp; dumbbell starter</small></div>
+    </div>
+    <div class="tools">
+      <button class="chip" data-act="unit" id="unitBtn" aria-label="Switch weight unit">kg</button>
+      <button class="chip" data-act="theme" aria-label="Switch light or dark theme">Theme</button>
+    </div>
+  </div>
+  <nav class="wrap tabs" role="tablist" aria-label="Sections">
+    <button class="tab" role="tab" data-act="tab" data-v="basics">Start here</button>
+    <button class="tab" role="tab" data-act="tab" data-v="library">Exercises</button>
+    <button class="tab" role="tab" data-act="tab" data-v="plan">My plan</button>
+    <button class="tab" role="tab" data-act="tab" data-v="history">History</button>
+    <button class="tab" role="tab" data-act="tab" data-v="backup">Backup</button>
+  </nav>
+</header>
+<main class="wrap" id="main"></main>
+<footer>I'm an AI-built guide, not a doctor or certified coach. If you have an injury or health condition, check with a professional first, and stop any exercise that causes sharp pain.</footer>
+<div id="overlay" role="dialog" aria-modal="true"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// ==MODEL-START==
+const L={T:66,TH:56,SH:56,UA:38,FA:38};
+const VB="70 -10 280 290";
+function ik(P,T,l1,l2,side){
+  const dx=T[0]-P[0],dy=T[1]-P[1];
+  const d0=Math.hypot(dx,dy)||1e-6;
+  const ux=dx/d0,uy=dy/d0;
+  const d=Math.min(d0,l1+l2-0.01);
+  const a=(l1*l1-l2*l2+d*d)/(2*d);
+  const h=Math.sqrt(Math.max(l1*l1-a*a,0));
+  return {j:[P[0]+ux*a-uy*h*side,P[1]+uy*a+ux*h*side],e:[P[0]+ux*d,P[1]+uy*d]};
+}
+function solve(p,c){
+  const th=p.t*Math.PI/180;
+  const hip=[p.hx,p.hy];
+  const sh=[hip[0]+L.T*Math.sin(th),hip[1]-L.T*Math.cos(th)];
+  const ks=c.kneeSide===undefined?-1:c.kneeSide;
+  const leg=ik(hip,[p.ax===undefined?190:p.ax,p.ay===undefined?264:p.ay],L.TH,L.SH,ks);
+  const leg2=p.bx!==undefined?ik(hip,[p.bx,p.by],L.TH,L.SH,ks):null;
+  const wt=c.rel?[sh[0]+p.wx,sh[1]+p.wy]:[p.wx,p.wy];
+  const arm=ik(sh,wt,L.UA,L.FA,c.elbowSide===undefined?1:c.elbowSide);
+  const hd=(p.hd!==undefined?p.hd:p.t*0.75)*Math.PI/180;
+  const head=[sh[0]+23*Math.sin(hd),sh[1]-23*Math.cos(hd)];
+  return {hip,sh,knee:leg.j,ank:leg.e,knee2:leg2&&leg2.j,ank2:leg2&&leg2.e,elbow:arm.j,wrist:arm.e,head};
+}
+function lerp(A,B,t){const o={};for(const k in A){o[k]=B[k]!==undefined?A[k]+(B[k]-A[k])*t:A[k];}return o;}
+function envSVG(e){
+  let o='<line class="floor" x1="70" y1="272" x2="350" y2="272"/>';
+  if(e==='bench')o+='<rect class="env" x="105" y="218" width="131" height="9" rx="3"/><line class="env-l" x1="120" y1="227" x2="120" y2="272"/><line class="env-l" x1="222" y1="227" x2="222" y2="272"/>';
+  if(e==='row')o+='<rect class="env" x="205" y="212" width="125" height="9" rx="3"/><line class="env-l" x1="220" y1="221" x2="220" y2="272"/><line class="env-l" x1="315" y1="221" x2="315" y2="272"/>';
+  return o;
+}
+function fig(p,c,ghost){
+  const s=solve(p,c);
+  const f=a=>a[0].toFixed(1)+','+a[1].toFixed(1);
+  const toe=(a)=>a[1]<258?[a[0]+9,a[1]+13]:[a[0]+22,a[1]+4];
+  let o=envSVG(c.env);
+  if(ghost)o+=`<path class="ghost" d="M${f(ghost[0])} L${f(ghost[1])}"/>`;
+  if(s.knee2)o+=`<polyline class="limb far" points="${f(s.hip)} ${f(s.knee2)} ${f(s.ank2)} ${f(toe(s.ank2))}"/>`;
+  o+=`<polyline class="limb" points="${f(s.hip)} ${f(s.knee)} ${f(s.ank)} ${f(toe(s.ank))}"/>`;
+  o+=`<line class="torso" x1="${s.hip[0].toFixed(1)}" y1="${s.hip[1].toFixed(1)}" x2="${s.sh[0].toFixed(1)}" y2="${s.sh[1].toFixed(1)}"/>`;
+  o+=`<line class="neck" x1="${s.sh[0].toFixed(1)}" y1="${s.sh[1].toFixed(1)}" x2="${s.head[0].toFixed(1)}" y2="${s.head[1].toFixed(1)}"/>`;
+  o+=`<circle class="head" cx="${s.head[0].toFixed(1)}" cy="${s.head[1].toFixed(1)}" r="11"/>`;
+  o+=`<polyline class="limb arm" points="${f(s.sh)} ${f(s.elbow)} ${f(s.wrist)}"/>`;
+  o+=`<circle class="plate" cx="${s.wrist[0].toFixed(1)}" cy="${s.wrist[1].toFixed(1)}" r="${c.r}"/><circle class="hub" cx="${s.wrist[0].toFixed(1)}" cy="${s.wrist[1].toFixed(1)}" r="3.5"/>`;
+  return o;
+}
+const STAND={hx:186,hy:152,t:3};
+const BENCH={hx:200,hy:208,t:-90,hd:-90,ax:252,ay:264};
+const DEMOS={
+  squat:{name:"Barbell squat",elbowSide:-1,rel:true,r:15,
+    A:{hx:184,hy:154,t:8,wx:-10,wy:0},B:{hx:150,hy:214,t:40,wx:-10,wy:0},
+    la:"Stand tall, bar on your upper back",lb:"Sit down until thighs are parallel to the floor"},
+  deadlift:{name:"Deadlift",r:28,
+    A:{hx:139,hy:203,t:60,wx:196,wy:244},B:{hx:186,hy:152,t:3,wx:194,wy:160},
+    la:"Bar over mid-foot, back flat, arms straight",lb:"Stand tall, hips and knees locked, bar at thighs"},
+  bench:{name:"Bench press",r:14,env:"bench",
+    A:{...BENCH,wx:136,wy:132},B:{...BENCH,wx:166,wy:182},
+    la:"Arms locked out over your shoulders",lb:"Bar lightly touches your lower chest"},
+  ohp:{name:"Overhead press",r:13,
+    A:{...STAND,wx:200,wy:74},B:{...STAND,wx:190,wy:12},
+    la:"Bar rests on your front shoulders",lb:"Arms locked out, bar over mid-foot"},
+  row:{name:"Bent-over row",r:16,
+    A:{hx:140,hy:195,t:65,wx:198,wy:241},B:{hx:140,hy:195,t:65,wx:192,wy:190},
+    la:"Arms straight, back flat, torso hinged",lb:"Bar pulled to lower ribs, elbows back"},
+  rdl:{name:"Romanian deadlift",r:16,
+    A:{...STAND,wx:194,wy:160},B:{hx:128,hy:182,t:70,wx:192,wy:233},
+    la:"Stand tall with the bar at your thighs",lb:"Hips pushed back, bar slides to mid-shin"},
+  curl:{name:"Barbell curl",r:10,
+    A:{...STAND,wx:196,wy:160},B:{...STAND,wx:214,wy:96},
+    la:"Arms straight, elbows by your ribs",lb:"Bar at shoulder height, elbows still pinned"},
+  goblet:{name:"Goblet squat",rel:true,r:9,
+    A:{hx:186,hy:154,t:4,wx:20,wy:6},B:{hx:156,hy:212,t:30,wx:20,wy:6},
+    la:"Dumbbell held against your chest",lb:"Sit between your knees, chest tall"},
+  dbbench:{name:"Dumbbell bench press",r:9,env:"bench",
+    A:{...BENCH,wx:136,wy:132},B:{...BENCH,wx:166,wy:182},
+    la:"Dumbbells pressed up over your shoulders",lb:"Dumbbells level with your chest"},
+  dbpress:{name:"Dumbbell shoulder press",r:9,
+    A:{...STAND,wx:194,wy:58},B:{...STAND,wx:190,wy:12},
+    la:"Dumbbells at shoulder height",lb:"Arms locked out overhead"},
+  dbrow:{name:"One-arm dumbbell row",r:9,env:"row",
+    A:{hx:125,hy:180,t:75,hd:56,ax:150,ay:264,wx:190,wy:237},B:{hx:125,hy:180,t:75,hd:56,ax:150,ay:264,wx:178,wy:182},
+    la:"Arm hangs straight, back flat",lb:"Dumbbell pulled to your hip, elbow up"},
+  dbrdl:{name:"Dumbbell Romanian deadlift",r:9,
+    A:{...STAND,wx:194,wy:160},B:{hx:128,hy:182,t:70,wx:192,wy:233},
+    la:"Stand tall with dumbbells at your thighs",lb:"Hips back, dumbbells slide to mid-shin"},
+  lunge:{name:"Split squat / lunge",rel:true,r:9,
+    A:{hx:170,hy:165,t:2,wx:3,wy:72,ax:215,ay:264,bx:112,by:252},B:{hx:170,hy:205,t:2,wx:3,wy:72,ax:215,ay:264,bx:112,by:252},
+    la:"Tall posture, feet split front and back",lb:"Back knee hovers above the floor"},
+  dbcurl:{name:"Dumbbell curl",r:8,
+    A:{...STAND,wx:196,wy:160},B:{...STAND,wx:214,wy:96},
+    la:"Arms straight, elbows by your ribs",lb:"Dumbbell at shoulder height, elbow still"},
+  tri:{name:"Overhead triceps extension",r:9,
+    A:{...STAND,wx:190,wy:12},B:{...STAND,wx:168,wy:80},
+    la:"Dumbbell held straight overhead",lb:"Lower behind your head, elbows stay up"}
+};
+function ghostOf(d){if(!d._g)d._g=[solve(d.A,d).wrist,solve(d.B,d).wrist];return d._g;}
+// ==MODEL-END==
+
+const BUILTIN=[
+{id:"goblet",name:"Goblet Squat",group:"Legs",equip:"Dumbbell",level:"Easy",muscles:"Quads, glutes, core",demo:"goblet",sets:3,reps:"10",rest:"90 sec",start:"One light dumbbell, 6–10 kg / 15–20 lb",
+setup:["Hold one dumbbell upright by its top end, cupped in both hands against your chest. Elbows point down.","Stand with feet a little wider than your shoulders, toes turned out slightly.","Choose a weight you could lift for 15 easy reps. This is your practice squat."],
+steps:["Take a breath into your belly and tighten your abs.","Bend your knees and hips together, sitting straight down between your knees.","Let your elbows slide inside your knees at the bottom. Keep your chest tall and your heels on the floor.","Pause for one second, then push the floor away and stand up.","Exhale as you rise. Squeeze your glutes at the top."],
+mistakes:["Heels lifting off the floor. Widen your stance or shift weight to your heels.","Knees collapsing inward. Push your knees out over your toes.","Chest folding forward. Keep the dumbbell close and your chest up."],
+tips:["Sit as deep as you can while keeping your back flat. Depth improves with practice.","Film yourself from the side for the first few sessions.","Once 3×12 feels easy, move to the barbell back squat."]},
+{id:"bb-squat",name:"Barbell Back Squat",group:"Legs",equip:"Barbell",level:"Medium",muscles:"Quads, glutes, hamstrings, core",demo:"squat",sets:3,reps:"5",rest:"2–3 min",start:"Empty bar (20 kg / 45 lb). Learn the goblet squat first.",
+setup:["Set the rack hooks around mid-chest height and the safety pins just below the depth you'll squat to.","Load both sides equally and lock plates in with collars. In your first weeks, use the empty bar only.","Step under the bar and rest it on the shelf of your upper back muscles, not on the bony part of your neck. Grip just outside your shoulders, elbows pointing down.","Stand up to lift the bar off the hooks, take two small steps back, and set your feet shoulder-width apart with toes turned out slightly."],
+steps:["Take a big breath into your belly and brace your abs as if you're about to be poked.","Push your hips back a little and bend your knees at the same time. Knees track in line with your toes.","Lower until your thighs are about parallel to the floor, or as deep as you can go with a flat back and heels down.","Drive through your whole foot. Hips and chest rise together.","Stand fully tall and squeeze your glutes. Reset your breath before the next rep."],
+mistakes:["Hips shooting up before the chest (the squat turns into a bow). Keep pushing the floor away evenly.","Knees caving in. Think about spreading the floor apart with your feet.","Rounding your lower back at the bottom. Stop the descent a little higher.","Heels lifting off the floor. Widen your stance or work on ankle mobility."],
+tips:["Never squat without safety pins or a spotter.","Add 2.5 kg / 5 lb per session once all sets look clean.","If the bar hurts your back, use a folded bar pad or fall back to goblet squats for now."]},
+{id:"bb-deadlift",name:"Barbell Deadlift",group:"Back",equip:"Barbell",level:"Technical",muscles:"Glutes, hamstrings, back, grip",demo:"deadlift",sets:3,reps:"5",rest:"2–3 min",start:"Empty bar, then add small plates. Have a coach check your form.",
+setup:["The bar starts on the floor, resting on full-size plates (45 cm / 18 in across). With smaller plates, raise the bar on blocks.","Stand with the bar over the middle of your feet, close to your shins. Feet hip-width apart.","Hinge down and grip the bar just outside your knees, overhand grip.","Bend your knees until your shins touch the bar. Chest up, arms straight like ropes."],
+steps:["Take a breath, brace your abs, and pull the slack out of the bar until you feel it tighten.","Push the floor away with your legs. The bar stays touching your legs the whole way up.","When the bar passes your knees, drive your hips forward to stand tall.","Finish with glutes squeezed and shoulders back. Don't lean backward.","Lower by pushing your hips back first, then bending your knees once the bar passes them. Set it down under control."],
+mistakes:["Rounding your lower back. Keep your chest proud and lower the weight.","Bar drifting away from your legs. Drag it up your shins and thighs.","Jerking the bar off the floor. Pull the slack out first.","Leaning back at the top. Stand tall and stop."],
+tips:["Reset fully at the floor for every rep.","Film from the side to check your back angle.","Straps and belts can wait. Grip and core strength come first."]},
+{id:"bb-bench",name:"Barbell Bench Press",group:"Chest",equip:"Barbell",level:"Medium",muscles:"Chest, front shoulders, triceps",demo:"bench",sets:3,reps:"5–8",rest:"2–3 min",start:"Empty bar, with a spotter or safety arms set",
+setup:["Set the safety arms of the rack just above your chest, or ask a spotter to stand behind your head.","Lie on the bench with your eyes under the bar, feet flat on the floor, glutes, upper back and head on the bench.","Pull your shoulder blades together and down, like tucking them into your back pockets.","Grip a little wider than shoulder-width, thumbs wrapped around the bar."],
+steps:["Unrack the bar and move it over your shoulders with straight arms.","Breathe in and lower the bar under control to your lower chest. Elbows about 45–70° from your body.","Let it lightly touch your chest, without bouncing.","Press up and slightly back toward your shoulders, exhaling as you go, until your arms are straight.","Re-rack by moving the bar back until it rests in the hooks."],
+mistakes:["Bouncing the bar off your chest.","Elbows flared out to 90°. Tuck them a bit.","Lifting your butt off the bench. Keep your feet planted.","Wrists bent backward. Stack your wrists over your elbows."],
+tips:["Always use collars, and never bench alone without safety arms.","Pick the weight so your last rep still moves smoothly.","If one side rises faster, lower the weight and focus on even pressing."]},
+{id:"bb-ohp",name:"Barbell Overhead Press",group:"Shoulders",equip:"Barbell",level:"Medium",muscles:"Shoulders, triceps, upper chest, core",demo:"ohp",sets:3,reps:"5–8",rest:"2 min",start:"Empty bar (20 kg / 45 lb)",
+setup:["Set the bar at upper-chest height in the rack.","Grip just outside your shoulders. The bar rests on your front shoulders and collarbone, elbows slightly in front of the bar.","Lift it off the hooks, step back, and stand with feet hip-width apart.","Squeeze your glutes and brace your abs so your ribs stay down."],
+steps:["Take a breath and hold it tight.","Press the bar straight up. Pull your head back slightly so the bar clears your face.","Once the bar passes your forehead, push your head forward under it.","Lock out with the bar over the middle of your feet and biceps near your ears.","Lower the bar under control to your collarbone and repeat."],
+mistakes:["Leaning way back. That's a lower-back press. Squeeze glutes and abs.","Pushing the bar out in front around your face. Keep it close.","Not locking out. Finish each rep with arms straight."],
+tips:["Progress slowly. Small plates (1 kg / 2.5 lb) make a big difference here.","Keep your wrists straight, bar over your forearms."]},
+{id:"bb-row",name:"Barbell Bent-Over Row",group:"Back",equip:"Barbell",level:"Medium",muscles:"Lats, upper back, biceps, lower back",demo:"row",sets:3,reps:"8",rest:"2 min",start:"Empty bar",
+setup:["Pick the bar up from the floor or rack the same way as a deadlift. Feet hip-width, knees soft.","Hinge at your hips until your torso is about 45° above horizontal. Back flat, neck in line with your spine.","Grip a little wider than shoulder-width, overhand. The bar hangs at about mid-shin."],
+steps:["Brace your abs and keep your torso still.","Pull the bar toward your lower ribs, driving your elbows back and up.","Squeeze your shoulder blades together for one second.","Lower the bar slowly until your arms are straight again."],
+mistakes:["Standing up as you pull. Keep your torso angle fixed.","Rounding your back. Lower the weight and push your chest forward.","Shrugging your shoulders toward your ears. Pull with your elbows."],
+tips:["Not enough weight is better than jerking. Control matters more than load.","If your lower back tires, try the one-arm dumbbell row instead."]},
+{id:"bb-rdl",name:"Barbell Romanian Deadlift",group:"Legs",equip:"Barbell",level:"Medium",muscles:"Hamstrings, glutes, lower back",demo:"rdl",sets:3,reps:"8",rest:"2 min",start:"Empty bar or a light load",
+setup:["Stand holding the bar at hip height, overhand grip just outside your thighs. Feet hip-width apart.","Soften your knees slightly. Shoulders back and down."],
+steps:["Brace your abs.","Push your hips straight back, like closing a car door with your butt. Knees stay slightly bent, at the same angle throughout.","Slide the bar down your thighs to just below the knees, or until you feel a strong hamstring stretch. Back stays flat.","Drive your hips forward to stand tall, squeezing your glutes."],
+mistakes:["Turning it into a squat. Your knees should barely move.","Bar drifting forward. Keep it touching your legs.","Going lower than your flexibility allows, which rounds the back."],
+tips:["The stretch in your hamstrings tells you how deep to go.","Learn the dumbbell version first if the hip hinge feels new."]},
+{id:"bb-curl",name:"Barbell Curl",group:"Arms",equip:"Barbell",level:"Easy",muscles:"Biceps, forearms",demo:"curl",sets:3,reps:"8–12",rest:"90 sec",start:"Empty bar or an EZ-curl bar",
+setup:["Stand with feet hip-width apart, holding the bar underhand at shoulder-width, arms straight.","Keep your elbows tucked against your ribs."],
+steps:["Tighten your abs and glutes so your body stays still.","Bend your elbows to curl the bar up toward your shoulders.","Squeeze your biceps at the top without letting your elbows drift forward.","Lower slowly over 2–3 seconds until your arms are fully straight."],
+mistakes:["Swinging your body to lift the bar. Lower the weight.","Elbows drifting forward. Pin them to your sides.","Only using half the range. Go from fully straight to fully curled."],
+tips:["An EZ-curl bar is gentler on the wrists.","Stop a rep or two before your form breaks down."]},
+{id:"db-bench",name:"Dumbbell Bench Press",group:"Chest",equip:"Dumbbell",level:"Easy",muscles:"Chest, front shoulders, triceps",demo:"dbbench",sets:3,reps:"8–12",rest:"90 sec–2 min",start:"Pair of dumbbells you could press 15 times",
+setup:["Sit on the end of a flat bench with the dumbbells resting on your thighs.","Lie back and use your knees to help kick the dumbbells up to chest height, or ask a helper to hand them to you.","Feet flat, shoulder blades pulled together and down."],
+steps:["Press the dumbbells up until your arms are straight, palms facing forward or slightly inward.","Lower them slowly until they sit beside your chest, elbows 45–70° from your body.","Press up and slightly inward, exhaling as you go.","To finish, bring the dumbbells back to your thighs, then sit up."],
+mistakes:["Elbows flaring out to 90°. Tuck them slightly.","Letting the dumbbells drift apart or crash together at the top. Keep them steady.","Arching your back excessively. Keep your feet planted and glutes on the bench."],
+tips:["Dumbbells make each arm work on its own. Start light to learn the balance.","Ask a helper to spot you when weights get challenging."]},
+{id:"db-press",name:"Dumbbell Shoulder Press",group:"Shoulders",equip:"Dumbbell",level:"Easy",muscles:"Shoulders, triceps, upper chest",demo:"dbpress",sets:3,reps:"8–12",rest:"90 sec",start:"Pair of light dumbbells, 4–8 kg / 10–20 lb each",
+setup:["Stand or sit on a bench with a back support. Feet flat and hip-width apart.","Hold the dumbbells at shoulder height, palms facing forward or toward each other.","Brace your abs and squeeze your glutes."],
+steps:["Press the dumbbells straight up until your arms are almost straight.","Bring them close together at the top without clanking them.","Lower slowly back to ear level, forearms staying vertical.","Repeat, keeping your ribs down."],
+mistakes:["Arching your lower back. Squeeze glutes and abs, or use a seat with back support.","Letting your wrists bend backward. Stack them over your elbows.","Going too heavy. Shoulders need small jumps."],
+tips:["Sitting gives the most stability for a beginner.","A neutral grip (palms facing each other) is kind to sore shoulders."]},
+{id:"db-row",name:"One-Arm Dumbbell Row",group:"Back",equip:"Dumbbell",level:"Easy",muscles:"Lats, upper back, biceps",demo:"dbrow",sets:3,reps:"10 each side",rest:"90 sec",start:"One dumbbell, 8–12 kg / 20–25 lb",
+setup:["Place your left hand on a flat bench and step your left foot back, or rest your left knee on the bench. Right foot stays on the floor.","Keep your back flat and roughly parallel to the floor.","Hold a dumbbell in your right hand, arm hanging straight down."],
+steps:["Brace your abs and keep your shoulders level.","Pull the dumbbell toward your hip, driving your elbow up and back.","Squeeze your back at the top for one second.","Lower slowly until your arm is straight, then repeat. Switch sides after all reps."],
+mistakes:["Twisting your torso to lift. Keep shoulders square to the floor.","Pulling toward your chest. Aim for your hip.","Shrugging. Keep your neck long."],
+tips:["This is the easiest row to learn. Start here before the barbell row.","Use the same reps on both sides. Start with your weaker one."]},
+{id:"db-rdl",name:"Dumbbell Romanian Deadlift",group:"Legs",equip:"Dumbbell",level:"Easy",muscles:"Hamstrings, glutes, lower back",demo:"dbrdl",sets:3,reps:"10",rest:"90 sec",start:"Two dumbbells, 8–12 kg / 20–25 lb each",
+setup:["Stand with feet hip-width apart, a dumbbell in each hand resting against the front of your thighs.","Soften your knees slightly and pull your shoulders back."],
+steps:["Push your hips straight back while your knees stay slightly bent.","Slide the dumbbells down your thighs to just below your knees, back flat.","Feel the stretch behind your legs, then drive your hips forward to stand tall.","Squeeze your glutes at the top."],
+mistakes:["Squatting down instead of hinging. Send your hips back, not down.","Rounding your upper back. Keep your chest proud.","Letting the dumbbells swing away from your legs."],
+tips:["This is the best way to learn the hip hinge before the barbell deadlift.","Look at a spot on the floor a few feet ahead. Don't crane your neck."]},
+{id:"db-lunge",name:"Dumbbell Split Squat / Lunge",group:"Legs",equip:"Dumbbell",level:"Medium",muscles:"Quads, glutes, balance",demo:"lunge",sets:2,reps:"10 each leg",rest:"90 sec",start:"Bodyweight first, then light dumbbells",
+setup:["Hold a dumbbell in each hand at your sides.","Step one foot forward about 2–3 of your foot-lengths. Rear heel lifted, weight on the ball of that foot.","Stand tall, with your torso upright."],
+steps:["Bend both knees and lower straight down until your rear knee hovers just above the floor.","Keep your front shin nearly vertical and your front heel down.","Push through your front heel to stand back up.","Complete all reps on one leg, then swap sides. Later you can step back and forward for walking lunges."],
+mistakes:["Stance too short, which puts stress on the front knee. Take a longer step.","Leaning forward. Keep your chest up.","Front knee caving inward. Track it over your toes."],
+tips:["Hold a wall or rack for balance at first.","Reverse lunges (stepping back) are often easier to control."]},
+{id:"db-curl",name:"Dumbbell Curl",group:"Arms",equip:"Dumbbell",level:"Easy",muscles:"Biceps, forearms",demo:"dbcurl",sets:2,reps:"10–12",rest:"60–90 sec",start:"Pair of light dumbbells, 4–8 kg / 10–20 lb",
+setup:["Stand tall with a dumbbell in each hand, arms hanging by your sides, palms facing forward.","Elbows pinned close to your ribs."],
+steps:["Curl one or both dumbbells up by bending your elbows only.","Squeeze your biceps at the top, forearms near vertical.","Lower slowly over 2–3 seconds until your arms are fully straight.","Alternate arms or curl both together."],
+mistakes:["Swinging your body. Slow down and lower the weight.","Elbows travelling forward. Keep them by your sides.","Dropping the weights fast. Control the lowering."],
+tips:["Stand with your back near a wall if you tend to lean.","Twist your palms up as you curl for a fuller squeeze."]},
+{id:"db-tri",name:"Dumbbell Overhead Triceps Extension",group:"Arms",equip:"Dumbbell",level:"Easy",muscles:"Triceps",demo:"tri",sets:2,reps:"10–12",rest:"60–90 sec",start:"One light dumbbell, 5–10 kg / 10–20 lb",
+setup:["Hold one dumbbell upright with both hands cupped under the top plate.","Press it overhead until your arms are straight. Stand or sit tall, abs braced."],
+steps:["Keep your upper arms still, elbows pointing forward and up.","Bend your elbows to lower the dumbbell behind your head.","Stop when you feel a stretch in the back of your arms.","Straighten your elbows to lift the dumbbell back overhead."],
+mistakes:["Elbows flaring out wide. Keep them pointing forward.","Arching your lower back. Squeeze glutes and abs.","Using too much weight, which can strain your elbows."],
+tips:["Start light. Elbows and wrists need time to adapt.","Sit on a bench with a back support if standing feels unsteady."]}
+];
+const DEMO_LABELS=Object.keys(DEMOS).map(k=>[k,DEMOS[k].name]);
+const GROUP_COLOR={Legs:"var(--red)",Chest:"var(--blue)",Back:"var(--green)",Shoulders:"var(--yellow)",Arms:"var(--white)"};
+const DEFAULT_PLAN=[
+ {id:"d1",name:"Day 1: Full body A",items:[
+  {uid:"a1",ex:"goblet",sets:3,reps:"10",weight:"",done:[]},
+  {uid:"a2",ex:"db-bench",sets:3,reps:"10",weight:"",done:[]},
+  {uid:"a3",ex:"db-row",sets:3,reps:"10 each side",weight:"",done:[]},
+  {uid:"a4",ex:"db-curl",sets:2,reps:"12",weight:"",done:[]}]},
+ {id:"d2",name:"Day 2: Full body B",items:[
+  {uid:"b1",ex:"db-rdl",sets:3,reps:"10",weight:"",done:[]},
+  {uid:"b2",ex:"db-press",sets:3,reps:"10",weight:"",done:[]},
+  {uid:"b3",ex:"db-lunge",sets:2,reps:"10 each leg",weight:"",done:[]},
+  {uid:"b4",ex:"db-tri",sets:2,reps:"12",weight:"",done:[]}]},
+ {id:"d3",name:"Day 3: Barbell intro",items:[
+  {uid:"c1",ex:"bb-squat",sets:3,reps:"5",weight:"",done:[]},
+  {uid:"c2",ex:"bb-bench",sets:3,reps:"5",weight:"",done:[]},
+  {uid:"c3",ex:"bb-row",sets:3,reps:"8",weight:"",done:[]},
+  {uid:"c4",ex:"bb-ohp",sets:2,reps:"5",weight:"",done:[]}]}
+];
+
+/* ---------- state ---------- */
+const KEY="strength-coach-v1";
+const uid=()=>Math.random().toString(36).slice(2,9);
+const clone=o=>JSON.parse(JSON.stringify(o));
+const $=(s,el=document)=>el.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function defaults(){return {exercises:clone(BUILTIN),plan:clone(DEFAULT_PLAN),history:[],unit:"kg"};}
+function load(){
+  try{const r=localStorage.getItem(KEY);
+    if(r){const o=JSON.parse(r);if(o&&Array.isArray(o.exercises)&&Array.isArray(o.plan))return Object.assign(defaults(),o);}
+  }catch(e){}
+  return defaults();
+}
+let S=load();
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){toast("Couldn't save. Browser storage may be full or blocked.");}}
+const exOf=id=>S.exercises.find(x=>x.id===id);
+let view="basics",filt={q:"",group:"All",equip:"All"},detailId=null,edit=null,playing=true,scrubT=0;
+const reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(reduce)playing=false;
+
+let toastT;
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("on");clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove("on"),2600);}
+
+/* ---------- animation ---------- */
+const vis=new Set();
+const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting?vis.add(e.target):vis.delete(e.target)));
+function autoT(now,off){const p=((now+off)%4200)/4200;const u=p<.5?p*2:(1-p)*2;const c=Math.min(1,Math.max(0,(u-.12)/.76));return c*c*(3-2*c);}
+function drawDemo(el,t){const d=DEMOS[el.dataset.demo];if(!d)return;el.innerHTML=fig(lerp(d.A,d.B,t),d,ghostOf(d));}
+function observeDemos(root){root.querySelectorAll("svg.demo").forEach(s=>{drawDemo(s,0);io.observe(s);});}
+function tick(now){
+  vis.forEach(el=>{
+    if(!el.isConnected){vis.delete(el);return;}
+    let t;
+    if(el.dataset.mode==="detail"){
+      if(playing){t=autoT(now,0);const r=$("#scrub");if(r)r.value=Math.round(t*100);scrubT=t;}else t=scrubT;
+    }else t=reduce?0:autoT(now,+el.dataset.off||0);
+    drawDemo(el,t);
+  });
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+/* ---------- views ---------- */
+function tagHTML(x){return `<span class="tag"><span class="dot" style="background:${GROUP_COLOR[x.group]||"var(--white)"}"></span>${esc(x.group)}</span><span class="tag">${esc(x.equip)}</span>`;}
+function basicsHTML(){
+  const hero=DEMOS.squat;
+  return `
+  <section class="hero">
+    <div>
+      <h1>Learn each lift before you load it.</h1>
+      <p>You've never touched a barbell, and that's fine. This page walks you through 15 beginner-friendly barbell and dumbbell exercises with moving demos, step-by-step form cues, and a 3-day starter plan you can change however you like.</p>
+      <div class="cta-row"><button class="btn" data-act="tab" data-v="library">Browse exercises</button><button class="btn ghost" data-act="tab" data-v="plan">See my starter plan</button></div>
+    </div>
+    <div class="demo-wrap"><svg class="demo" data-demo="squat" viewBox="${VB}" role="img" aria-label="Animated stick figure doing a barbell squat"></svg>
+      <p class="sm muted" style="margin:4px 8px 6px">${esc(hero.name)}. The dashed blue line is the path the bar should follow.</p></div>
+  </section>
+
+  <h3 class="sub">Your first week in four steps</h3>
+  <div class="info">
+    <div class="box"><h4>1. Learn the movements</h4><p>Start with the Goblet Squat, Dumbbell Romanian Deadlift and One-Arm Row. Use light dumbbells and focus on the form cues.</p></div>
+    <div class="box"><h4>2. Train 3 days a week</h4><p>Leave a rest day between sessions. Your muscles grow while you recover, not while you lift.</p></div>
+    <div class="box"><h4>3. Keep a rep or two in reserve</h4><p>Stop each set when you could still do 1–3 more good reps. Beginners progress fastest with clean, easy sets.</p></div>
+    <div class="box"><h4>4. Add weight slowly</h4><p>When you finish every set at the top of the rep range with good form, add the smallest increment next session.</p></div>
+  </div>
+
+  <h3 class="sub">Gym equipment 101</h3>
+  <div class="info">
+    <div class="box"><h4>The barbell</h4><p>A standard Olympic bar weighs 20 kg / 45 lb and is about 2.2 m long. Some gyms also have lighter 15 kg / 35 lb bars. Ask staff which one you have.</p></div>
+    <div class="box"><h4>Plates and collars</h4><p>Load the same plates on both ends. The total is bar + both sides. Example: bar + 2×10 kg per side = 60 kg. Always clip on collars before lifting.</p></div>
+    <div class="box"><h4>Rack and safety pins</h4><p>The rack holds the bar. Set the safety pins just below your lowest position so you can drop the bar safely if you fail a rep.</p></div>
+    <div class="box"><h4>Bench and dumbbells</h4><p>A flat bench is for pressing and rowing. Dumbbells are sold in pairs, usually in 2 kg / 5 lb steps. Grab a pair you could lift 15 times.</p></div>
+  </div>
+
+  <h3 class="sub">Gym words, translated</h3>
+  <div class="box"><dl class="defs">
+    <dt>Rep</dt><dd>One full movement, for example one squat down and up.</dd>
+    <dt>Set</dt><dd>A group of reps done back-to-back, like 10 reps = 1 set.</dd>
+    <dt>Rest</dt><dd>Time between sets. Heavier lifts need 2–3 minutes, lighter ones about 60–90 seconds.</dd>
+    <dt>Progressive overload</dt><dd>Gradually doing more over time: more weight, more reps or better form. It is what makes you stronger.</dd>
+    <dt>Lockout</dt><dd>The finished top position with joints straight.</dd>
+    <dt>Brace</dt><dd>Take a belly breath and tighten your abs like you're about to be poked. It protects your spine.</dd>
+  </dl></div>
+
+  <h3 class="sub">Warm-up before every session (5–8 minutes)</h3>
+  <div class="info">
+    <div class="box"><h4>Get warm</h4><ul><li>3–5 minutes of easy walking, rowing or cycling</li><li>10 arm circles each direction</li></ul></div>
+    <div class="box"><h4>Practice the patterns</h4><ul><li>10 bodyweight squats</li><li>10 hip hinges with hands on hips</li><li>10 slow push-ups against a bench</li></ul></div>
+    <div class="box"><h4>Ramp up</h4><p>Do 1–2 light sets of your first exercise before your working weight, for example the empty bar, then half your working weight.</p></div>
+  </div>
+
+  <div class="callout"><b>Safety basics.</b> Use collars on every barbell. Use safety pins or a spotter for squats and bench press. Never bounce or jerk weights. If something hurts sharply (not just muscle burn), stop and get advice.</div>
+  `;
+}
+
+function libraryHTML(){
+  const groups=["All",...new Set(S.exercises.map(x=>x.group))];
+  const equips=["All",...new Set(S.exercises.map(x=>x.equip))];
+  const chips=(arr,cur,act)=>arr.map(v=>`<button class="chip" data-act="${act}" data-v="${esc(v)}" aria-pressed="${v===cur}">${esc(v)}</button>`).join("");
+  return `
+  <div class="sec-head"><h2>Exercise library</h2><button class="btn" data-act="new">+ Add your own exercise</button></div>
+  <div class="filters"><input type="search" id="q" placeholder="Search exercises or muscles" aria-label="Search exercises" value="${esc(filt.q)}"></div>
+  <div class="filters"><span class="muted sm">Muscle group</span><div class="fgroup">${chips(groups,filt.group,"fg")}</div></div>
+  <div class="filters"><span class="muted sm">Equipment</span><div class="fgroup">${chips(equips,filt.equip,"fe")}</div></div>
+  <div class="grid" id="grid">${gridHTML()}</div>`;
+}
+function gridHTML(){
+  const q=filt.q.trim().toLowerCase();
+  const list=S.exercises.filter(x=>(filt.group==="All"||x.group===filt.group)&&(filt.equip==="All"||x.equip===filt.equip)&&(!q||(x.name+" "+x.muscles+" "+x.group+" "+x.equip).toLowerCase().includes(q)));
+  if(!list.length)return `<div class="empty" style="grid-column:1/-1">No exercises match. Clear the filters or add your own.</div>`;
+  return list.map((x,i)=>{
+    let thumb;
+    if(DEMOS[x.demo])thumb=`<svg class="demo" data-demo="${x.demo}" data-off="${i*330}" viewBox="${VB}" aria-hidden="true"></svg>`;
+    else if(x.photo)thumb=`<img src="${x.photo}" alt="">`;
+    else thumb=`<span class="ph" aria-hidden="true">🏋️</span>`;
+    return `<article class="card click" tabindex="0" data-act="open" data-id="${esc(x.id)}" aria-label="Open ${esc(x.name)}">
+      <div class="thumb">${thumb}</div>
+      <div class="c-body"><div class="tags">${tagHTML(x)}</div><h3>${esc(x.name)}</h3>
+      <p class="muted sm" style="margin:0">${esc(x.sets)} sets of ${esc(x.reps)} reps. Level: ${esc(x.level)}</p></div></article>`;
+  }).join("");
+}
+
+function detailHTML(x){
+  const d=DEMOS[x.demo];
+  let demo="";
+  if(d){
+    demo=`<div class="demo-wrap"><svg class="demo" data-demo="${x.demo}" data-mode="detail" viewBox="${VB}" role="img" aria-label="Animated demo of ${esc(x.name)}"></svg>
+      <div class="ctrl"><button class="btn sm ghost" data-act="play" id="playBtn">${playing?"Pause":"Play"}</button><input id="scrub" type="range" min="0" max="100" value="${Math.round(scrubT*100)}" aria-label="Scrub through the movement"></div></div>
+      <div class="frames">
+        <figure><svg viewBox="${VB}" aria-hidden="true">${fig(d.A,d,ghostOf(d))}</svg><figcaption><b>Position 1</b>${esc(d.la)}</figcaption></figure>
+        <figure><svg viewBox="${VB}" aria-hidden="true">${fig(d.B,d,ghostOf(d))}</svg><figcaption><b>Position 2</b>${esc(d.lb)}</figcaption></figure>
+      </div>
+      <p class="sm muted" style="margin-top:8px">Side-view stick figure. The dashed blue line is the path the weight travels. Blue circle = plate or dumbbell.</p>`;
+  }else if(!x.photo){
+    demo=`<div class="empty">No demo attached yet. Press Edit to pick a demo animation or upload your own photo.</div>`;
+  }
+  const photo=x.photo?`<img class="photo" src="${x.photo}" alt="Photo of ${esc(x.name)}">`:"";
+  const li=a=>(a||[]).map(t=>`<li>${esc(t)}</li>`).join("");
+  const days=S.plan.map((p,i)=>`<option value="${i}">${esc(p.name)}</option>`).join("");
+  return `<div class="sheet">
+    <button class="btn ghost sm x" data-act="close" aria-label="Close">Close</button>
+    <div class="d-head"><div class="tags">${tagHTML(x)}<span class="tag">Level: ${esc(x.level)}</span></div><h2>${esc(x.name)}</h2></div>
+    <div class="d-grid">
+      <div>${demo}${photo}</div>
+      <div>
+        <div class="facts">
+          <div class="fact"><span>Muscles</span><b>${esc(x.muscles)}</b></div>
+          <div class="fact"><span>Starting volume</span><b>${esc(x.sets)} × ${esc(x.reps)}</b></div>
+          <div class="fact"><span>Rest between sets</span><b>${esc(x.rest)}</b></div>
+          <div class="fact"><span>Starting weight</span><b>${esc(x.start)}</b></div>
+        </div>
+        ${x.setup&&x.setup.length?`<h3 style="font-size:1.4rem;margin:16px 0 8px">Set up</h3><ul class="dlist">${li(x.setup)}</ul>`:""}
+      </div>
+    </div>
+    <h3 style="font-size:1.4rem;margin:22px 0 10px">How to do it</h3>
+    <ol class="steps">${li(x.steps)}</ol>
+    <div class="info" style="margin-top:6px">
+      <div class="box"><h4>Common mistakes</h4><ul class="dlist bad">${li(x.mistakes)}</ul></div>
+      <div class="box"><h4>Coach tips</h4><ul class="dlist good">${li(x.tips)}</ul></div>
+    </div>
+    <div class="row-actions">
+      ${S.plan.length?`<select id="dd-day" aria-label="Choose a day">${days}</select><button class="btn" data-act="add-plan" data-id="${esc(x.id)}">Add to plan</button>`:`<span class="muted sm">Create a plan day first to add this exercise.</span>`}
+      <button class="btn ghost" data-act="edit" data-id="${esc(x.id)}">Edit</button>
+      <button class="btn ghost danger" data-act="del-ex" data-id="${esc(x.id)}">Delete</button>
+    </div>
+  </div>`;
+}
+
+function editHTML(){
+  const n=edit.id==="new";
+  const x=n?{name:"",group:"Legs",equip:"Dumbbell",level:"Easy",muscles:"",demo:"",sets:3,reps:"10",rest:"90 sec",start:"",setup:[],steps:[],mistakes:[],tips:[]}:exOf(edit.id);
+  const groups=[...new Set([...Object.keys(GROUP_COLOR),...S.exercises.map(e=>e.group)])];
+  const equips=[...new Set(["Barbell","Dumbbell","Bodyweight","Machine","Cable",...S.exercises.map(e=>e.equip)])];
+  const opt=(arr,cur)=>arr.map(v=>`<option${v===cur?" selected":""}>${esc(v)}</option>`).join("");
+  const ta=(id,label,arr,ph)=>`<label class="full">${label}<textarea id="${id}" placeholder="${ph}">${esc((arr||[]).join("\n"))}</textarea></label>`;
+  return `<div class="sheet">
+    <button class="btn ghost sm x" data-act="close" aria-label="Close">Cancel</button>
+    <h2 style="font-size:2rem;margin-bottom:14px">${n?"Add an exercise":"Edit exercise"}</h2>
+    <div class="form">
+      <label class="full">Name<input type="text" id="ef-name" value="${esc(x.name)}" placeholder="e.g. Dumbbell lateral raise"></label>
+      <label>Muscle group<input type="text" id="ef-group" list="dl-g" value="${esc(x.group)}"><datalist id="dl-g">${opt(groups,"")}</datalist></label>
+      <label>Equipment<input type="text" id="ef-equip" list="dl-e" value="${esc(x.equip)}"><datalist id="dl-e">${opt(equips,"")}</datalist></label>
+      <label>Level<select id="ef-level">${opt(["Easy","Medium","Technical"],x.level)}</select></label>
+      <label>Muscles worked<input type="text" id="ef-muscles" value="${esc(x.muscles)}"></label>
+      <label>Sets<input type="text" id="ef-sets" value="${esc(x.sets)}"></label>
+      <label>Reps<input type="text" id="ef-reps" value="${esc(x.reps)}"></label>
+      <label>Rest<input type="text" id="ef-rest" value="${esc(x.rest)}"></label>
+      <label>Starting weight<input type="text" id="ef-start" value="${esc(x.start)}"></label>
+      <label class="full">Demo animation
+        <select id="ef-demo"><option value="">None</option>${DEMO_LABELS.map(([k,v])=>`<option value="${k}"${k===x.demo?" selected":""}>${esc(v)}</option>`).join("")}</select></label>
+      ${ta("ef-setup","Set up (one point per line)",x.setup,"One line per bullet")}
+      ${ta("ef-steps","Steps (one per line)",x.steps,"One line per step")}
+      ${ta("ef-mistakes","Common mistakes (one per line)",x.mistakes,"")}
+      ${ta("ef-tips","Coach tips (one per line)",x.tips,"")}
+      <div class="full"><b style="font-size:.9rem">Your own photo (optional)</b>
+        <div id="photoPrev" style="margin:6px 0">${edit.photo?`<img class="photo" style="max-width:260px" src="${edit.photo}" alt="Preview">`:'<span class="muted sm">No photo yet</span>'}</div>
+        <input type="file" id="ef-photo" accept="image/*" style="max-width:100%">
+        <button class="btn ghost sm" data-act="photo-clear" style="margin-top:6px">Remove photo</button></div>
+    </div>
+    <div class="row-actions"><button class="btn" data-act="save-ex">Save exercise</button><button class="btn ghost" data-act="close">Cancel</button></div>
+  </div>`;
+}
+
+function planHTML(){
+  const dayCards=S.plan.map((day,di)=>{
+    const items=day.items.map((it,ii)=>{
+      const x=exOf(it.ex);
+      const ticks=Array.from({length:Math.max(0,+it.sets||0)},(_,si)=>`<button class="tick" data-act="tick" data-di="${di}" data-ii="${ii}" data-si="${si}" aria-pressed="${!!(it.done&&it.done[si])}" aria-label="Set ${si+1} done">${si+1}</button>`).join("");
+      return `<div class="item">
+        ${x?`<button class="nm" data-act="open" data-id="${esc(x.id)}">${esc(x.name)}</button>`:`<span class="muted">(deleted exercise)</span>`}
+        <div class="inputs">
+          <label>Sets<input type="number" min="1" max="12" value="${esc(it.sets)}" data-f="sets" data-di="${di}" data-ii="${ii}"></label>
+          <label>Reps<input type="text" value="${esc(it.reps)}" data-f="reps" data-di="${di}" data-ii="${ii}"></label>
+          <label>Weight (${S.unit})<input class="w" type="text" value="${esc(it.weight)}" data-f="weight" data-di="${di}" data-ii="${ii}" placeholder="0"></label>
+        </div>
+        <div class="mv"><button class="icon" data-act="item-up" data-di="${di}" data-ii="${ii}" aria-label="Move up">↑</button><button class="icon" data-act="item-down" data-di="${di}" data-ii="${ii}" aria-label="Move down">↓</button><button class="icon" data-act="item-del" data-di="${di}" data-ii="${ii}" aria-label="Remove">✕</button></div>
+        <div class="ticks">${ticks}</div>
+      </div>`;
+    }).join("");
+    const opts=S.exercises.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join("");
+    return `<section class="day">
+      <div class="day-h"><input type="text" value="${esc(day.name)}" data-f="dayname" data-di="${di}" aria-label="Day name"></div>
+      ${items||`<div class="empty">No exercises yet. Add one below.</div>`}
+      <div class="add-row"><select id="add-${di}" aria-label="Exercise to add">${opts}</select><button class="btn ghost sm" data-act="plan-add" data-di="${di}">Add exercise</button></div>
+      <div class="day-foot"><button class="btn sm" data-act="day-finish" data-di="${di}">Finish workout</button><button class="btn ghost sm" data-act="day-reset" data-di="${di}">Clear ticks</button><button class="btn ghost danger sm" data-act="day-del" data-di="${di}">Delete day</button></div>
+    </section>`;
+  }).join("");
+  return `<div class="sec-head"><h2>My plan</h2><button class="btn" data-act="day-add">+ Add workout day</button></div>
+    <p class="muted" style="max-width:62ch">Edit anything here: rename days, change sets, reps and weights, reorder or swap exercises. Tick each set as you finish it, then press Finish workout to save it in History. Leave a rest day between sessions.</p>
+    ${dayCards||`<div class="empty">Your plan is empty. Add a workout day to begin.</div>`}`;
+}
+
+function historyHTML(){
+  const h=[...S.history].reverse();
+  const body=h.length?h.map(e=>`<div class="hist"><div class="day-h" style="margin:0"><b style="font-family:var(--head);font-size:1.3rem">${esc(e.day)}</b><span class="muted sm">${esc(e.date)}</span></div>
+    <ul>${e.items.map(i=>`<li>${esc(i.name)}: ${esc(i.done)} of ${esc(i.sets)} sets, ${esc(i.reps)} reps${i.weight?`, ${esc(i.weight)} ${esc(i.unit||"")}`:""}</li>`).join("")}</ul>
+    <button class="btn ghost danger sm" data-act="hist-del" data-id="${esc(e.id)}" style="margin-top:8px">Delete entry</button></div>`).join(""):`<div class="empty">No workouts logged yet. Tick your sets in My plan, then press Finish workout.</div>`;
+  return `<div class="sec-head"><h2>History</h2><span class="muted">${S.history.length} workout${S.history.length===1?"":"s"} logged</span></div>${body}`;
+}
+
+function backupHTML(){
+  return `<div class="sec-head"><h2>Backup and reset</h2></div>
+  <p class="muted" style="max-width:64ch">Your exercises, plan and history save automatically in this browser. To move them to another device or keep a safe copy, copy the text below and paste it somewhere safe. To restore, paste it in the second box.</p>
+  <div class="box" style="margin-bottom:16px"><h4>Export</h4><textarea id="exp" readonly style="min-height:120px;font-family:monospace;font-size:.8rem">${esc(JSON.stringify(S))}</textarea>
+    <div class="cta-row"><button class="btn" data-act="copy">Copy to clipboard</button></div></div>
+  <div class="box" style="margin-bottom:16px"><h4>Import</h4><textarea id="imp" placeholder="Paste a backup here" style="min-height:100px;font-family:monospace;font-size:.8rem"></textarea>
+    <div class="cta-row"><button class="btn" data-act="import">Import and replace</button></div></div>
+  <div class="box"><h4>Reset options</h4>
+    <p class="muted">Restore any built-in exercises you deleted, without touching your own.</p>
+    <button class="btn ghost" data-act="restore">Restore built-in exercises</button>
+    <p class="muted" style="margin-top:16px">Erase everything and start fresh with the default exercises and plan.</p>
+    <button class="btn ghost danger" data-act="reset">Reset everything</button></div>`;
+}
+
+/* ---------- render ---------- */
+function render(){
+  document.querySelectorAll(".tab").forEach(t=>t.setAttribute("aria-selected",t.dataset.v===view));
+  $("#unitBtn").textContent=S.unit;
+  const m=$("#main");
+  m.innerHTML=({basics:basicsHTML,library:libraryHTML,plan:planHTML,history:historyHTML,backup:backupHTML})[view]();
+  observeDemos(m);
+  renderOverlay();
+}
+function renderOverlay(){
+  const o=$("#overlay");
+  if(edit){o.innerHTML=editHTML();}
+  else if(detailId&&exOf(detailId)){o.innerHTML=detailHTML(exOf(detailId));observeDemos(o);}
+  else{o.innerHTML="";detailId=null;}
+  document.body.style.overflow=o.innerHTML?"hidden":"";
+  if(o.innerHTML)o.scrollTop=0;
+}
+function closeOverlay(){detailId=null;edit=null;renderOverlay();}
+
+/* ---------- actions ---------- */
+function armed(btn,label){
+  if(btn.dataset.armed==="1")return true;
+  const old=btn.textContent;btn.dataset.armed="1";btn.textContent=label||"Click again to confirm";
+  setTimeout(()=>{if(btn.isConnected){btn.dataset.armed="";btn.textContent=old;}},3000);
+  return false;
+}
+function shrinkImage(file,cb){
+  const fr=new FileReader();
+  fr.onload=()=>{const img=new Image();img.onload=()=>{
+    const s=Math.min(1,640/Math.max(img.width,img.height));
+    const c=document.createElement("canvas");c.width=Math.round(img.width*s);c.height=Math.round(img.height*s);
+    c.getContext("2d").drawImage(img,0,0,c.width,c.height);cb(c.toDataURL("image/jpeg",.72));};
+    img.onerror=()=>toast("That file couldn't be read as an image.");img.src=fr.result;};
+  fr.readAsDataURL(file);
+}
+const lines=id=>$("#"+id).value.split("\n").map(s=>s.trim()).filter(Boolean);
+
+document.addEventListener("click",e=>{
+  if(e.target.id==="overlay"){closeOverlay();return;}
+  const t=e.target.closest("[data-act]");if(!t)return;
+  const a=t.dataset.act,di=+t.dataset.di,ii=+t.dataset.ii;
+  switch(a){
+    case "tab":view=t.dataset.v;render();window.scrollTo(0,0);break;
+    case "unit":S.unit=S.unit==="kg"?"lb":"kg";save();render();break;
+    case "theme":{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;r.dataset.theme=dark?"light":"dark";try{localStorage.setItem("sc-theme",r.dataset.theme);}catch(err){}break;}
+    case "fg":filt.group=t.dataset.v;render();break;
+    case "fe":filt.equip=t.dataset.v;render();break;
+    case "open":detailId=t.dataset.id;edit=null;renderOverlay();break;
+    case "close":closeOverlay();break;
+    case "play":playing=!playing;if(!playing){const r=$("#scrub");scrubT=r?r.value/100:scrubT;}t.textContent=playing?"Pause":"Play";break;
+    case "new":edit={id:"new",photo:""};detailId=null;renderOverlay();break;
+    case "edit":{const x=exOf(t.dataset.id);edit={id:x.id,photo:x.photo||""};renderOverlay();break;}
+    case "photo-clear":edit.photo="";$("#photoPrev").innerHTML='<span class="muted sm">No photo yet</span>';break;
+    case "save-ex":{
+      const name=$("#ef-name").value.trim();
+      if(!name){toast("Give the exercise a name first.");return;}
+      const data={name,group:$("#ef-group").value.trim()||"Other",equip:$("#ef-equip").value.trim()||"Other",level:$("#ef-level").value,muscles:$("#ef-muscles").value.trim(),demo:$("#ef-demo").value,sets:$("#ef-sets").value.trim()||"3",reps:$("#ef-reps").value.trim()||"10",rest:$("#ef-rest").value.trim(),start:$("#ef-start").value.trim(),setup:lines("ef-setup"),steps:lines("ef-steps"),mistakes:lines("ef-mistakes"),tips:lines("ef-tips"),photo:edit.photo||""};
+      if(edit.id==="new"){const id="c-"+uid();S.exercises.push(Object.assign({id,custom:true},data));detailId=id;}
+      else{Object.assign(exOf(edit.id),data);detailId=edit.id;}
+      edit=null;save();render();toast("Exercise saved.");break;}
+    case "del-ex":{
+      if(!armed(t,"Click again to delete"))return;
+      const id=t.dataset.id;S.exercises=S.exercises.filter(x=>x.id!==id);
+      S.plan.forEach(d=>d.items=d.items.filter(i=>i.ex!==id));
+      detailId=null;save();render();toast("Exercise deleted. You can restore built-ins from Backup.");break;}
+    case "add-plan":{
+      const sel=$("#dd-day"),idx=+sel.value,x=exOf(t.dataset.id);
+      S.plan[idx].items.push({uid:uid(),ex:x.id,sets:+x.sets||3,reps:String(x.reps),weight:"",done:[]});
+      save();toast("Added to "+S.plan[idx].name);if(view==="plan")render();break;}
+    case "plan-add":{
+      const id=$("#add-"+di).value,x=exOf(id);if(!x)return;
+      S.plan[di].items.push({uid:uid(),ex:id,sets:+x.sets||3,reps:String(x.reps),weight:"",done:[]});
+      save();render();break;}
+    case "day-add":S.plan.push({id:uid(),name:"Day "+(S.plan.length+1),items:[]});save();render();break;
+    case "day-del":if(!armed(t,"Click again to delete"))return;S.plan.splice(di,1);save();render();break;
+    case "day-reset":S.plan[di].items.forEach(i=>i.done=[]);save();render();break;
+    case "day-finish":{
+      const day=S.plan[di];
+      const items=day.items.filter(i=>(i.done||[]).some(Boolean)).map(i=>{const x=exOf(i.ex);return {name:x?x.name:"Exercise",sets:i.sets,reps:i.reps,weight:i.weight,unit:S.unit,done:(i.done||[]).filter(Boolean).length};});
+      if(!items.length){toast("Tick at least one set first.");return;}
+      S.history.push({id:uid(),date:new Date().toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric",year:"numeric"}),day:day.name,items});
+      day.items.forEach(i=>i.done=[]);save();render();toast("Workout saved to History.");break;}
+    case "item-up":if(ii>0){const a2=S.plan[di].items;[a2[ii-1],a2[ii]]=[a2[ii],a2[ii-1]];save();render();}break;
+    case "item-down":{const a2=S.plan[di].items;if(ii<a2.length-1){[a2[ii+1],a2[ii]]=[a2[ii],a2[ii+1]];save();render();}break;}
+    case "item-del":S.plan[di].items.splice(ii,1);save();render();break;
+    case "tick":{const it=S.plan[di].items[ii],si=+t.dataset.si;it.done=it.done||[];it.done[si]=!it.done[si];save();t.setAttribute("aria-pressed",!!it.done[si]);break;}
+    case "hist-del":if(!armed(t,"Click again to delete"))return;S.history=S.history.filter(h=>h.id!==t.dataset.id);save();render();break;
+    case "copy":{const ta=$("#exp");ta.select();let ok=false;try{ok=document.execCommand("copy");}catch(err){}toast(ok?"Copied. Paste it somewhere safe.":"Select the text and copy it manually.");break;}
+    case "import":{
+      try{const o=JSON.parse($("#imp").value);
+        if(!o||!Array.isArray(o.exercises)||!Array.isArray(o.plan))throw new Error("bad");
+        S=Object.assign(defaults(),o);save();render();toast("Backup imported.");
+      }catch(err){toast("That doesn't look like a valid backup.");}
+      break;}
+    case "restore":{
+      const have=new Set(S.exercises.map(x=>x.id));let n=0;
+      BUILTIN.forEach(b=>{if(!have.has(b.id)){S.exercises.push(clone(b));n++;}});
+      save();render();toast(n?`Restored ${n} exercise${n>1?"s":""}.`:"All built-in exercises are already here.");break;}
+    case "reset":if(!armed(t,"Click again to erase everything"))return;S=defaults();save();render();toast("Everything reset.");break;
+  }
+});
+document.addEventListener("keydown",e=>{
+  if(e.key==="Escape"&&$("#overlay").innerHTML)closeOverlay();
+  if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches("article[data-act=open]")){e.preventDefault();e.target.click();}
+});
+document.addEventListener("input",e=>{
+  const t=e.target;
+  if(t.id==="q"){filt.q=t.value;$("#grid").innerHTML=gridHTML();observeDemos($("#grid"));return;}
+  if(t.id==="scrub"){playing=false;scrubT=t.value/100;const b=$("#playBtn");if(b)b.textContent="Play";return;}
+  const f=t.dataset&&t.dataset.f;if(!f)return;
+  const di=+t.dataset.di,ii=+t.dataset.ii;
+  if(f==="dayname")S.plan[di].name=t.value;
+  else if(f==="reps"||f==="weight")S.plan[di].items[ii][f]=t.value;
+  else return;
+  save();
+});
+document.addEventListener("change",e=>{
+  const t=e.target;
+  if(t.id==="ef-photo"&&t.files[0]){shrinkImage(t.files[0],url=>{edit.photo=url;$("#photoPrev").innerHTML=`<img class="photo" style="max-width:260px" src="${url}" alt="Preview">`;});return;}
+  if(t.dataset&&t.dataset.f==="sets"){
+    const it=S.plan[+t.dataset.di].items[+t.dataset.ii];
+    it.sets=Math.max(1,Math.min(12,+t.value||1));it.done=(it.done||[]).slice(0,it.sets);save();render();
+  }
+});
+
+/* ---------- boot ---------- */
+try{const th=localStorage.getItem("sc-theme");if(th)document.documentElement.dataset.theme=th;}catch(e){}
+render();
+</script>
+</body>
+</html>
